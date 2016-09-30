@@ -1,10 +1,8 @@
-define(["./properties", "qlik","jquery","client.utils/routing"], 
-	function(Props, qlik,$,Routing) {
+define(["./properties", "qlik","jquery"], 
+	function(Props, qlik,$) {
 		'use strict';
 
-
 	 	$('<link rel="stylesheet" type="text/css" href="/extensions/exportextension/exportextension.css">').appendTo("head");
-
 
 
 		//console.log(qlik);
@@ -16,6 +14,7 @@ define(["./properties", "qlik","jquery","client.utils/routing"],
 		var logger = function()
 		{
 		    var oldConsoleLog = null;
+		    
 		    var pub = {};
 
 		    pub.enableLogger =  function enableLogger() 
@@ -36,20 +35,8 @@ define(["./properties", "qlik","jquery","client.utils/routing"],
 		}();
 
 
-
-
-
 		return {
-					// new object properties
-			initialProperties: {
-				version: 1.02,
-				qHyperCubeDef: {
-					// Custom properties
-					qContextMode:"CurrentSelections",
-					qDebugMode:true
-				}
-			},
-
+			// new object properties
 			definition: Props,
 			paint: function($element, layout) {
 				//add your rendering code here
@@ -74,6 +61,7 @@ define(["./properties", "qlik","jquery","client.utils/routing"],
 
 				} else {
 					var debugmode = layout.DebugMode;
+
 				}
 
 
@@ -82,11 +70,6 @@ define(["./properties", "qlik","jquery","client.utils/routing"],
 				} else {
 					logger.disableLogger();
 				}
-
-
-
-
-
 
 			}
 

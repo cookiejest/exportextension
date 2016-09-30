@@ -1,6 +1,6 @@
 readme.txt;
-TalktoQlik.qext;
-TalktoQlik.js;
-Talktoqlikstyle.css;
+exportextension.qext;
+exportextension.js;
+exportextensionstyle.css;
 properties.js;
 preview.png;
