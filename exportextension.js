@@ -1,82 +1,137 @@
-define(["./properties", "qlik","jquery"], 
-	function(Props, qlik,$) {
-		'use strict';
+define(["./properties", "qlik", "jquery", "client.utils/routing"],
+    function(Props, qlik, $, Routing) {
+        'use strict';
 
-	 	$('<link rel="stylesheet" type="text/css" href="/extensions/exportextension/exportextension.css">').appendTo("head");
-
-
-		//console.log(qlik);
-
-		var app = qlik.currApp(this);
+        $('<link rel="stylesheet" type="text/css" href="/extensions/exportextension/exportextension.css">').appendTo("head");
 
 
-		//Function to enable console logging in debug mode.
-		var logger = function()
-		{
-		    var oldConsoleLog = null;
-		    
-		    var pub = {};
 
-		    pub.enableLogger =  function enableLogger() 
-		                        {
-		                            if(oldConsoleLog == null)
-		                                return;
+        //Function to enable console logging in debug mode.
+        var logger = function() {
+            var oldConsoleLog = null;
+            var pub = {};
 
-		                            window['console']['log'] = oldConsoleLog;
-		                        };
+            pub.enableLogger = function enableLogger() {
+                if (oldConsoleLog == null)
+                    return;
 
-		    pub.disableLogger = function disableLogger()
-		                        {
-		                            oldConsoleLog = console.log;
-		                            window['console']['log'] = function() {};
-		                        };
+                window['console']['log'] = oldConsoleLog;
+            };
 
-		    return pub;
-		}();
+            pub.disableLogger = function disableLogger() {
+                oldConsoleLog = console.log;
+                window['console']['log'] = function() {};
+            };
+
+            return pub;
+        }();
 
 
-		return {
-			// new object properties
-			definition: Props,
-			paint: function($element, layout) {
-				//add your rendering code here
-				//$element.html( "TalktoQlik" );
-				//console.log($('#myonoffswitch').is(':checked'));
+        return {
+            // new object properties
+            initialProperties: {
+                qHyperCubeDef: {
+                    // Custom properties
+                    qContextMode: "CurrentSelections",
+                    qDebugMode: true
+                }
+            },
+
+            definition: Props,
+            paint: function($element, layout) {
+
+                    //console.log('LAYOUT INFO');
+                    //console.log(layout);
+                    //add your rendering code here
+                    //$element.html( "TalktoQlik" );
+                    //console.log($('#myonoffswitch').is(':checked'));
+
+                    if (layout.ButtonText) {
+                        var Buttontext = layout.ButtonText;
+                    } else {
+                        var Buttontext = '';
+                    }
+
+                    var HTMLcontent = '<a class="button">' + Buttontext + '</button>';
+
+                    $element.html(HTMLcontent);
+
+                    console.log(layout.ButtonColor);
+                    console.log(layout.ButtonText);
 
 
-				if(layout.DefaultMode==true) {
 
-					var HTMLcontent = '<div class="onoffswitch"><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked><label class="onoffswitch-label" for="myonoffswitch"><span class="onoffswitch-inner"></span><span class="onoffswitch-switch"></span></label></div><div id="TalkToQlikNotificationDiv"></div>';
+                    $(".button").css({
+                        "background-color": layout.ButtonColor,
+                        "border": "none",
+                        "color": "white",
+                        "padding": "15px 32px",
+                        "text-align": "center",
+                        "text-decoration": "none",
+                        "display": "inline-block",
+                        "font-size": "16px"
+                    });
+
+                    //
+                    //alert(layout.ActionMode);
+
+                    if (layout.ActionMode == true) {
+                        //EXPORT TO SERVER
+                        $(".button").click(function() {
+                            console.log('SEND DATA TO SERVER');
+                            console.log(layout.buttondata);
 
 
-				}
 
 
-				$element.html(HTMLcontent);
+                            $.post("/somepath", layout.buttondata, function() {
+                                    alert("success");
+                                })
+                                .done(function() {
+                                    alert("done");
+                                })
+                                .fail(function() {
+                                    alert("error");
+                                })
+                                .always(function() {
+                                    alert("finished");
+                                });
+
+                        });
+
+                    } else {
 
 
-				if(layout.DebugMode==undefined) {
-				var debugmode = false;
+                        //EXPORT TO BROWSER
+                        $(".button").click(function() {
+                            alert("Send to user");
+                        });
 
 
-				} else {
-					var debugmode = layout.DebugMode;
-
-				}
+                    }
+                    //$(".button").
 
 
-				if(debugmode==true) {
-					logger.enableLogger();
-				} else {
-					logger.disableLogger();
-				}
+                    if (layout.DebugMode == undefined) {
+                        var debugmode = false;
 
-			}
 
-		}//end return
-		  ////////////////////////////////////////////////////////
+                    } else {
+                        var debugmode = layout.DebugMode;
+                    }
 
-	}//close function
-}
-); //close define
 
+                    if (debugmode == true) {
+                        logger.enableLogger();
+                    } else {
+                        logger.disableLogger();
+                    }
+
+
+
+
+                } //end return
+                ////////////////////////////////////////////////////////
+
+        } //close function
+    }); //close define
