@@ -1,5 +1,5 @@
 {
-	"name": "Export Button Extension",
+	"name": "CVA Export Button Extension",
 	"description": "Use a button to export any object data to a fixed remote folder location (with the correct access) or send back to browser.",
 	"type": "visualization",
 	"version": "1.0.1",

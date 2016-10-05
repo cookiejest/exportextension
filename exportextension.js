@@ -5,7 +5,6 @@ define(["./properties", "qlik", "jquery", "client.utils/routing"],
         $('<link rel="stylesheet" type="text/css" href="/extensions/exportextension/exportextension.css">').appendTo("head");
 
 
-
         //Function to enable console logging in debug mode.
         var logger = function() {
             var oldConsoleLog = null;
@@ -73,9 +72,9 @@ define(["./properties", "qlik", "jquery", "client.utils/routing"],
                     });
 
                     //
-                    //alert(layout.ActionMode);
+                    alert(layout.buttondata.ActionMode);
 
-                    if (layout.ActionMode == true) {
+                    if (layout.buttondata.ActionMode == true) {
                         //EXPORT TO SERVER
                         $(".button").click(function() {
                             console.log('SEND DATA TO SERVER');
