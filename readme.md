@@ -16,4 +16,4 @@ Debug mode will turn on/off the console logging inside the developer tools so yo
 
 
 ##Credits:
-Adam Cooke
+Adam Cooke webofwork.com
